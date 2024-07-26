@@ -353,6 +353,11 @@ Each application node must contain `"snps,accel-app"` compatible label. For each
 
 The reg property describes a region in the accelerator shared memory reserved for the core firmware runtime (control structures, communication queues, buffers). The firmware and userspace host application share this region. The driver reads only one the first region from the `reg` property.
 
+_Usage notes:_
+
+The integrator is responsible for specifying the correct amount of shared memory for the firmware and host userspace application. The size must match the amount of available shared memory and the accelerator firmware and userspace application requirements. A userspace application is allowed to
+mmap this region to its own address space to access it, and an incorrect value in this property can cause the userspace application to crash if it needs to access outside the allowed space.
+
 **snps,arcsync-ctrl**
 
 The `snps,acrsync-ctrl` property contains a reference (phandle) to an ARCSync node. This property allows the application driver to get ARCsync device reference from the arcsync driver and to address certain ARCSync control unit and to receive notifications about interrupts from this unit. If several ARCSync presence in the system different accelerators may reference to a different ARCSync by this property.
